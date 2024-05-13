@@ -48,3 +48,33 @@ void CircularBuffer<T>::clear() {
 //проверка очереди на пустоту
 template <typename T>
 bool CircularBuffer<T>::isEmpty() const { return count == 0; }
+
+//геттеры для итератора
+template <typename T>
+T* CircularBuffer<T>::getBuffer() const { return buffer; }
+template <typename T>
+size_t CircularBuffer<T>::getFront() const { return front; }
+template <typename T>
+size_t CircularBuffer<T>::getRear() const { return rear; }
+template <typename T>
+size_t CircularBuffer<T>::getSizeArr() const { return sizeArr; }
+
+//конструктор итератора
+template <typename T>
+Iterator<T>::Iterator(const CircularBuffer<T>& circularBuffer) : circularBuffer(circularBuffer), current(circularBuffer.getFront()) {}
+
+//начать перебор элементов
+template <typename T>
+void Iterator<T>::start() { current = circularBuffer.getFront(); }
+
+//перейти к следующему элементу
+template <typename T>
+void Iterator<T>::next() { current = (current + 1) % circularBuffer.getSizeArr(); }
+
+//проверка, все ли проитерировано
+template <typename T>
+bool Iterator<T>::finish() const { return current == circularBuffer.getRear() % circularBuffer.getSizeArr(); }
+
+//получить очередной элемент очереди
+template <typename T>
+T Iterator<T>::getValue() { return circularBuffer.getBuffer()[current]; }

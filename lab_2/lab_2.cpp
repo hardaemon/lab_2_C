@@ -47,7 +47,7 @@ int main() {
 		std::cout << "Элементы взят, хотя должно быть исключение" << std::endl;
 	}
 	catch (const std::exception& e) {
-		std::cout << ">>>>> Исключение! Ошибка: " << e.what() << std::endl;
+		std::cout << ">>>>> Исключение, как и ожидалось. Ошибка: " << e.what() << std::endl;
 	}
 	try {
 		buffer.enqueue(10); //размер 1
@@ -63,7 +63,7 @@ int main() {
 		std::cout << "Элементы получен, хотя должно быть исключение" << std::endl;
 	}
 	catch (const std::exception& e) {
-		std::cout << ">>>>> Исключение! Ошибка: " << e.what() << std::endl;
+		std::cout << ">>>>> Исключение, как и ожидалось. Ошибка: " << e.what() << std::endl;
 	}
 	buffer.enqueue(10);
 	buffer.enqueue(20);
@@ -76,5 +76,16 @@ int main() {
 	if (buffer.isEmpty()) { std::cout << "Очищено успешно и буфер пустой" << std::endl; }
 	else { std::cout << "При выполнении очистки произошла ошибка и буфер не пуст" << std::endl; }
 
+	CircularBuffer<int> buff(5);
+	buff.enqueue(10);
+	buff.enqueue(20);
+	buff.enqueue(30);
+	buff.enqueue(40);
+	Iterator<int> iter(buff);
+	iter.start();
+	while (!iter.finish()) {
+		std::cout << "Значение: " << iter.getValue() << std::endl;
+		iter.next();
+	}
 	return 0;
 }
